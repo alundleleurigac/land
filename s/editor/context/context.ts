@@ -13,6 +13,7 @@ import {CargoController} from "./controllers/cargo.js"
 import {UnknownPage} from "../pages/unknown/view.js"
 import {AccountPage} from "../pages/account/view.js"
 import {ProjectPage} from "../pages/project/view.js"
+import {EditorApp} from "../dom/views/editor/view.js"
 import {TabManager} from "./controllers/input/tabs.js"
 import {ProjectsPage} from "../pages/projects/view.js"
 import {Keybindings} from "./controllers/input/keybindings.js"
@@ -42,14 +43,14 @@ export class EditorContext {
 			home: spa.route("#/", async() => AboutPage(this)),
 			account: spa.route("#/account", async() => AccountPage(this)),
 			projects: spa.route("#/projects", async() => ProjectsPage(this)),
-			project: spa.route(`#/project/{projectId}`, async() => ProjectPage(this)),
+			project: spa.route(`#/project/{projectId}`, async(id) => ProjectPage(this, id.projectId)),
 		},
 		notFound: async() => UnknownPage(),
 	})
 
 	views = {
 		...shiny({theme: themes.basic}).views,
-		...contextualizeViews(this, {Nav, Lol}),
+		...contextualizeViews(this, {Nav, Lol, TabBar, EditorApp}),
 	}
 
 	getElements = () => ({

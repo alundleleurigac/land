@@ -2,41 +2,22 @@ import {css, html} from "lit"
 import {view} from "@e280/sly"
 
 import {EditorContext} from "../../context/context.js"
-import {TimelineTab} from "../../dom/tabs/timeline/view.js"
-import {OutlinerTab} from "../../dom/tabs/outliner/view.js"
 
-
-export const ProjectPage = view(use => (context: EditorContext) => {
+export const ProjectPage = view(use => (context: EditorContext, projectId: string) => {
 	use.styles(css`
 		:host {
 			display: flex;
 			flex-direction: column;
-			flex: 1;
+			height: 100%;
+			min-height: 0;
 		}
-		.tab-content {
+		.app {
 			flex: 1;
-			overflow: auto;
+			min-height: 0;
 		}
 	`)
 
-	use.mount(() => () => context.dispose())
+	const App = context.views.EditorApp(projectId)
 
-	const manager = context.tabs
-	const TabBarView = context.views.TabBar()
-
-	const renderActiveTab = () => {
-		switch (manager.activeTabId.value) {
-			case "timeline": return TimelineTab()
-			case "outliner": return OutlinerTab()
-			default: return html`<p>Unknown tab</p>`
-		}
-	}
-
-	return html`
-		<p>editing project: ${projectId}</p>
-		${TabBarView}
-		<div class="tab-content">
-			${renderActiveTab()}
-		</div>
-	`
+	return html`<div class="app">${App}</div>`
 })
