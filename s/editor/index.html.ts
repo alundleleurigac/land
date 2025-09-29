@@ -17,7 +17,7 @@ export default ssg.page(import.meta.url, async orb => {
 			<meta data-version="${await orb.packageVersion("$/package.json")}"/>
 		`,
 		body: html`
-			<omni-router></omni-router>
+			<editor-app></editor-app>
 		`,
 	})
 })

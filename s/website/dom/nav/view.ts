@@ -3,7 +3,7 @@ import {view, dom} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import themeCss from "../../../editor/theme.css.js"
-import arrowRightSvg from "../../../editor/dom/icons/gravity-ui/arrow-right.svg.js"
+import arrowRightSvg from "../../../editor/ui/icons/gravity-ui/arrow-right.svg.js"
 
 export const Nav = view(use => (getSection: (id: string) => HTMLElement | undefined) => {
 	use.styles(themeCss, styleCss)

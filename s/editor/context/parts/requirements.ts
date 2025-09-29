@@ -1,9 +1,9 @@
 
 import {Cellar, OpfsForklift} from "@e280/quay"
 import {Strata} from "./strata.js"
-import {TabManager} from "../controllers/input/tabs.js"
 import {CargoController} from "../controllers/cargo.js"
 import {Keybindings} from "../controllers/input/keybindings.js"
+import {TabManager} from "../../ui/pages/project/tabbing/tab-manager.js"
 
 export type Requirements = Awaited<ReturnType<typeof setupRequirements>>
 

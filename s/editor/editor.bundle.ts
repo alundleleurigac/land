@@ -1,31 +1,9 @@
 
-import {html, css} from "lit"
-import {dom, view} from "@e280/sly"
-
+import {dom} from "@e280/sly"
+import {EditorApp} from "./ui/app/component.js"
 import {EditorContext} from "./context/context.js"
 
 const context = await EditorContext.setup()
 
-class OmniRouter extends view.component(use => {
-	use.styles(css`
-		:host {
-			display: flex;
-			flex-direction: column;
-			height: 100vh;
-			overflow: hidden;
-		}
-		main {
-			flex: 1;
-			overflow: auto;
-		}
-	`)
+dom.register({EditorApp: EditorApp(context)})
 
-	return html`
-		${context.views.Nav()}
-		<main>
-			${context.router.render()}
-		</main>
-	`
-}) {}
-
-dom.register({...context.getElements(), OmniRouter})

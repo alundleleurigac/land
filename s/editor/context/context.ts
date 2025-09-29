@@ -1,7 +1,6 @@
 
-import {makeRouter} from "./parts/router.js"
-import {prepareViews} from "./parts/views.js"
-import {mkOmniMedia} from "../dom/components/omni-media/element.js"
+import {makeRouter} from "../ui/pages/router.js"
+import {prepareViews} from "../ui/views/views.js"
 import {Requirements, setupRequirements} from "./parts/requirements.js"
 
 export class EditorContext {
@@ -10,17 +9,12 @@ export class EditorContext {
 		return new this(requirements)
 	}
 
-	constructor(private requirements: Requirements) {}
-
 	router = makeRouter(this)
 	views = prepareViews(this)
 
-	getElements = () => ({
-		OmniMedia: mkOmniMedia(this),
-	})
+	constructor(private requirements: Requirements) {}
 
 	get strata() { return this.requirements.strata }
-	get tabs() { return this.requirements.tabs }
 	get controllers() { return this.requirements.controllers }
 
 	dispose = () => {
