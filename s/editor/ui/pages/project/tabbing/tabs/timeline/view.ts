@@ -1,12 +1,18 @@
 
 import {html} from "lit"
 import {view} from "@e280/sly"
+
 import styleCss from "./style.css.js"
 import themeCss from "../../../../../../theme.css.js"
+import {TimelineArea} from "./views/timeline/view.js"
+import {TimelineViewport} from "./views/viewport/view.js"
 
 export const TimelineTab = view(use => () => {
 	use.styles(themeCss, styleCss)
 
-	return html`<h3>Timeline</h3>`
+	return html`
+		${TimelineViewport()}
+		${TimelineArea()}
+	`
 })
 

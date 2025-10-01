@@ -1,0 +1,30 @@
+import {Item, Kind, TimelineFile} from "@omnimedia/omnitool"
+
+export function crawl(file: TimelineFile): Item.Any[][] {
+	const itemsMap = new Map(file.items.map(item => [item.id, item]))
+	const tracks: Item.Any[][] = []
+
+	const walk = (id: number, track: number) => {
+		const item = itemsMap.get(id)!
+		switch(item.kind) {
+			case Kind.Clip: {
+				if(tracks.length <= track)
+					tracks.push([])
+				tracks[track].push(item)
+				break
+			}
+			case Kind.Sequence: {
+				item.children.forEach(i => walk(i, track))
+				break
+			}
+			case Kind.Stack: {
+				item.children.forEach(i => walk(i, track))
+				break
+			}
+
+		}
+	}
+
+	walk(file.root, 0)
+	return tracks
+}

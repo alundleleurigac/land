@@ -25,11 +25,11 @@ export const ProjectPage = (context: EditorContext) => view(use => (projectId: s
 	}
 
 	return html`
-		<header theme=topper></header>
+		<header theme=topper>
+			${TabBar(manager)}
+		</header>
 
 		<p>editing project: ${projectId}</p>
-
-		${TabBar(manager)}
 
 		<div class="tab-content">
 			${renderActiveTab()}

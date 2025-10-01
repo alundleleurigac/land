@@ -1,14 +1,32 @@
-
 import {css} from "lit"
+
 export default css`@layer view {
 
 :host {
-	display: block;
-	padding: 1em;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow: hidden;
 }
 
-h3 {
-	opacity: 0.5;
+.canvas-container {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #111;
+	overflow: hidden;
+}
+
+.canvas-container > p {
+	color: #444;
+	font-style: italic;
+}
+
+.canvas-container > canvas {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
 
 }`

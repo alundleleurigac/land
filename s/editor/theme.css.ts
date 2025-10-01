@@ -8,6 +8,10 @@ export default css`@layer theme, view; @layer theme {
 	box-sizing: border-box;
 }
 
+:host {
+	--bg: var(--omni-bg, black)
+}
+
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 1em; }
@@ -35,6 +39,7 @@ a {
 	height: 3em;
 	width: 100%;
 	background: #fff1;
+	padding-left: 3em;
 }
 
 [theme="paddy"] {
