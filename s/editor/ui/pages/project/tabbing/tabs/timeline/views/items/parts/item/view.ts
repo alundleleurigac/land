@@ -4,21 +4,26 @@ import {Item} from "@omnimedia/omnitool"
 
 import styleCss from "./style.css.js"
 import {DirectiveResult} from "lit/directive.js"
-import themeCss from "../../../../../../../../../theme.css.js"
+import {PIXELS_PER_MILLISECOND} from "../../../../constants.js"
+import themeCss from "../../../../../../../../../../theme.css.js"
+import {EditorContext} from "../../../../../../../../../../context/context.js"
+
 
 export const TimelineItem = view(use => (
+	context: EditorContext,
 	item: Item.Clip,
 	content: TemplateResult | DirectiveResult,
+	ancestors: Item.Any[]
 ) => {
 	use.styles(styleCss, themeCss)
+	const {zoom} = context.strata.settings.state
+	const visualWidth = (item.duration ?? 0) * PIXELS_PER_MILLISECOND * zoom
 
 	return html`
 		<div
 			class="item ${item.kind}"
 			?data-selected=${""}
-			style="
-				width: ${item.duration}px;
-			"
+			style="width: ${visualWidth}px;"
 		>
 			${content}
 			<div class="resize-handle start"></div>

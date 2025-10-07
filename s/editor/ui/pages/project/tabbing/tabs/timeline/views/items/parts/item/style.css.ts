@@ -1,9 +1,10 @@
 import {css} from "lit"
 
 export default css`@layer view {
+
 :host {
 	display: flex;
-	height: 100%;
+	height: 60px;
 	border: 2px solid #070707;
 	background: black;
 }

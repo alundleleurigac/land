@@ -17,6 +17,7 @@ export type State = {
 			height: number
 		}
 	}
+	viewedItemId: {id: number}
 }
 
 export class Strata {
@@ -39,6 +40,7 @@ export class Strata {
   			]
 			},
 		}),
+		viewedItemId: {id: 0},
 		settings: {
 			timebase: 30,
 			zoom: 1,
@@ -52,5 +54,6 @@ export class Strata {
 	settings = this.trunk.branch(s => s.settings)
 	files = this.trunk.branch(s => s.files)
 	timeline = this.trunk.chronobranch(64, s => s.chron)
+	viewedItemId = this.trunk.branch(s => s.viewedItemId)
 }
 
