@@ -7,24 +7,24 @@ export function crawl(file: TimelineFile): Item.Any[][] {
 	const walk = (id: number, track: number) => {
 		const item = itemsMap.get(id)!
 		switch(item.kind) {
-			case Kind.Clip: {
+			case Kind.Video: {
 				if(tracks.length <= track)
 					tracks.push([])
 				tracks[track].push(item)
 				break
 			}
 			case Kind.Sequence: {
-				item.children.forEach(i => walk(i, track))
+				item.childrenIds.forEach(i => walk(i, track))
 				break
 			}
 			case Kind.Stack: {
-				item.children.forEach(i => walk(i, track))
+				item.childrenIds.forEach(i => walk(i, track))
 				break
 			}
 
 		}
 	}
 
-	walk(file.root, 0)
+	walk(file.rootId, 0)
 	return tracks
 }

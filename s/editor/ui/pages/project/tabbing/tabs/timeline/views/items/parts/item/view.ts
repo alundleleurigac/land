@@ -11,11 +11,12 @@ import {EditorContext} from "../../../../../../../../../../context/context.js"
 
 export const TimelineItem = view(use => (
 	context: EditorContext,
-	item: Item.Clip,
+	item: Item.Video,
 	content: TemplateResult | DirectiveResult,
 	ancestors: Item.Any[]
 ) => {
-	use.styles(styleCss, themeCss)
+	use.styles(themeCss, styleCss)
+
 	const {zoom} = context.strata.settings.state
 	const visualWidth = (item.duration ?? 0) * PIXELS_PER_MILLISECOND * zoom
 

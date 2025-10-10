@@ -21,7 +21,7 @@ export function renderItem(context: EditorContext, id: number, ancestors: Item.A
 		case Kind.Stack: {
 			return StackView(context, item as Item.Stack, ancestors)
 		}
-		case Kind.Clip:
+		case Kind.Video:
 			return TimelineVideo(context, item, ancestors)
 		default:
 			return html`<div>Unknown Item: ${item.kind}</div>`

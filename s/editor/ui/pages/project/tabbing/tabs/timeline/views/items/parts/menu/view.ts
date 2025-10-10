@@ -31,7 +31,7 @@ export function renderItemMenu(context: EditorContext) {
 
 	if (viewedItem?.kind === Kind.Stack) {
 		return html`
-			${repeat(viewedItem.children, id => id, id => {
+			${repeat(viewedItem.childrenIds, id => id, id => {
 				const childItem = itemsMap.get(id)!
 				return itemMenu(context, childItem as Item.Any)
 			})}
@@ -45,8 +45,8 @@ export function renderItemMenu(context: EditorContext) {
 			? "Sequence"
 			: viewedItem?.kind === Kind.Text
 			? "Text"
-			: viewedItem?.kind === Kind.Clip
-			? "Clip" : null}
+			: viewedItem?.kind === Kind.Video
+			? "Video" : null}
 		</div>`
 	}
 }

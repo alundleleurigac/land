@@ -13,13 +13,13 @@ export const StackView = view(use => (
 	item: Item.Stack,
 	ancestors: Item.Any[]
 ) => {
-	use.styles(styleCss, themeCss)
+	use.styles(themeCss, styleCss)
 	const timeline = context.strata.timeline.state.timeline
 
 	const getStackDuration = (item: Item.Stack, items: Item.Any[]) => {
-		return Math.max(0, ...item.children.map(id => {
+		return Math.max(0, ...item.childrenIds.map(id => {
 			const child = items.find(item => item.id === id)
-			if(child?.kind === Kind.Clip)
+			if(child?.kind === Kind.Video)
 				return child?.duration
 			else return 0
 		}))
@@ -30,7 +30,7 @@ export const StackView = view(use => (
 	const renderFullMode = () => {
 		return html`
 			<div class="stack-tracks">
-			${item.children.map(childId => html`
+			${item.childrenIds.map(childId => html`
 				<div class=stack-track>
 					${renderItem(context, childId, [...ancestors, item])}
 				</div>
@@ -51,10 +51,9 @@ export const StackView = view(use => (
 					height: 60px;
 					width: ${visualWidth}px;
 				"
-				@click=${setViewedItem}
+				@dblclick=${setViewedItem}
 				title="Explore Stack"
 			>
-				<span class="explore-indicator">explore</span>
 				<span class="label">Stack (${item.id})</span>
 			</div>
 		`

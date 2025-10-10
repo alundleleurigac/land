@@ -16,7 +16,7 @@ export const SequenceView = view(use => (
 
 	return html`
 		<div class="sequence-container">
-			${item.children.map(childId => renderItem(context, childId, [...ancestors, item]))}
+			${item.childrenIds.map(childId => renderItem(context, childId, [...ancestors, item]))}
 		</div>
 	`
 })

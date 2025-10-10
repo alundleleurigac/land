@@ -1,7 +1,7 @@
 import {Item, Kind, TimelineFile} from "@omnimedia/omnitool"
 
 export function crawl(file: TimelineFile, select: {
-	video: (item: Item.Clip) => void
+	video: (item: Item.Video) => void
 	stack: (item: Item.Stack) => void
 }) {
 	const itemsMap = new Map(file.items.map(item => [item.id, item]))
@@ -9,8 +9,8 @@ export function crawl(file: TimelineFile, select: {
 	const walk = (id: number) => {
 		const item = itemsMap.get(id)!
 		switch(item.kind) {
-			case Kind.Clip: {
-				select.video(item as Item.Clip)
+			case Kind.Video: {
+				select.video(item as Item.Video)
 			}
 			case Kind.Stack: {
 				select.stack(item as Item.Stack)
@@ -20,5 +20,5 @@ export function crawl(file: TimelineFile, select: {
 		}
 	}
 
-	walk(file.root)
+	walk(file.rootId)
 }

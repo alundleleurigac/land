@@ -7,8 +7,8 @@ import {TimelineItem} from "../parts/item/view.js"
 import themeCss from "../../../../../../../../../theme.css.js"
 import {EditorContext} from "../../../../../../../../../context/context.js"
 
-export const TimelineVideo = view(use => (context: EditorContext, clip: Item.Clip, ancestors: Item.Any[]) => {
-	use.styles(styleCss, themeCss)
+export const TimelineVideo = view(use => (context: EditorContext, clip: Item.Video, ancestors: Item.Any[]) => {
+	use.styles(themeCss, styleCss)
 
 	return html`${TimelineItem(context, clip, html``, ancestors)}`}
 )
