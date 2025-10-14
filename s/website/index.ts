@@ -17,7 +17,7 @@ export const landingPage = view.component(use => {
 
    function getNavSection(id: string) {
    	try {
-    	return dom(use.shadow).require(`[id="${id}"]`)
+    	return dom(`[id="${id}"]`, use.shadow) as HTMLElement
    	}
    	catch(e) {}
   }

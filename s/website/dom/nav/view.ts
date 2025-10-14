@@ -35,8 +35,8 @@ export const Nav = view(use => (getSection: (id: string) => HTMLElement | undefi
 		</sl-drawer>`
 
 	function getDrawer() {
-		const drawer = dom(use.shadow).require("sl-drawer") as any
-		const closeBtn = dom(drawer).require('sl-button[variant="primary"]')
+		const drawer = dom("sl-drawer", use.shadow) as any
+		const closeBtn = dom('sl-button[variant="primary"]', drawer)
  		closeBtn?.addEventListener("click", () => drawer.hide())
  		return drawer
 	}
