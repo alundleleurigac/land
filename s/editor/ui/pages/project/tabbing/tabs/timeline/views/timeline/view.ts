@@ -20,7 +20,7 @@ export const TimelineArea = view(use => (context: EditorContext) => {
 				${Ruler(context)}
 			</div>
 			<div class="playhead-container">
-				${Playhead()}
+				${Playhead(context)}
 			</div>
 			<div class="headers-panel">
 				${renderItemMenu(context)}
