@@ -28,7 +28,7 @@ export default css`@layer view {
 	background: #222;
 	border-bottom: 1px solid #1a1a1a;
 	border-right: 1px solid #1a1a1a;
-	z-index: 5;
+	z-index: 6;
 }
 
 .ruler-container {
@@ -47,7 +47,7 @@ export default css`@layer view {
 	left: 0;
 	background: #222;
 	height: 100vh;
-	z-index: 2;
+	z-index: 6;
 }
 
 .content-panel {
@@ -61,7 +61,7 @@ export default css`@layer view {
 	grid-column: 2;
 	grid-row: 2;
 	position: relative;
-	z-index: 3;
+	z-index: 5;
 	pointer-events: none;
 }
 
