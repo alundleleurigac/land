@@ -1,5 +1,6 @@
 import {html} from "lit"
 import {view} from "@e280/sly"
+import {debounce} from "@e280/stz"
 import {Filmstrip, Item} from "@omnimedia/omnitool"
 
 import styleCss from "./style.css.js"
@@ -17,48 +18,62 @@ export const FilmstripView = view(use => (
 	const pixelsPerMillisecond = 0.1 * settings.state.zoom
 
 	const thumbnails = use.signal<{ time: number, canvas: HTMLCanvasElement | OffscreenCanvas }[]>([])
-	const getFrequencyInSec = (zoom: number) => Math.max(0.1, 1 / Math.pow(zoom, 1.5));
-  const thumbnailDivWidthPx = getFrequencyInSec(settings.state.zoom) * 1000 * pixelsPerMillisecond
+
+	const THUMB_WIDTH_PX = 100
+
+	const getFrequencyInSec = (zoom: number) => {
+		const pixelsPerMillisecond = 0.1 * zoom
+		return Math.max(0.05, THUMB_WIDTH_PX / (pixelsPerMillisecond * 1000))
+	}
 
 	const op = use.op.promise<Filmstrip>(
 		Filmstrip.init("/assets/temp/gl.mp4", {
-			onChange: (tiles) => thumbnails(tiles.map(({canvas, time}) => ({canvas: canvas.canvas, time}))),
-			canvasSinkOptions: {width: 120, height: 72, fit: "cover"}
-	}))
+			onChange: tiles =>
+				thumbnails(tiles.map(({canvas, time}) => ({canvas: canvas.canvas, time}))),
+			canvasSinkOptions: {width: THUMB_WIDTH_PX, height: 72, fit: "contain"},
+		})
+	)
 
 	const filmstrip = op.isLoading ? op.wait : op.require()
 
 	const update = async (scrollLeft: number) => {
-		const viewportStart = scrollLeft / (pixelsPerMillisecond)
-		const viewportEnd = (scrollLeft + ui.state.timelineWidth) / (pixelsPerMillisecond)
+		const viewportStart = scrollLeft / pixelsPerMillisecond
+		const viewportEnd = (scrollLeft + ui.state.timelineWidth) / pixelsPerMillisecond
 		const visibleClipStart = Math.max(clip.start, viewportStart)
 		const visibleClipEnd = Math.min(clip.start + clip.duration, viewportEnd)
 
 		if (visibleClipStart < visibleClipEnd)
-			(await filmstrip).range = [(visibleClipStart - clip.start) / 1000, (visibleClipEnd - clip.start) / 1000]
+			(await filmstrip).range = [
+				(visibleClipStart - clip.start) / 1000,
+				(visibleClipEnd - clip.start) / 1000,
+			]
 	}
 
-	use.once(async() => update(0))
+	use.once(async () => update(0))
+	const throttledUpdate = use.once(() => debounce(50, left => update(left)))
 
 	use.mount(() => {
-		const dispose1 = settings.on(async({zoom}) => (await filmstrip).frequency = getFrequencyInSec(zoom))
-		const dispose2 = ui.on(async ({timelineScrollLeft}) => update(timelineScrollLeft))
-		return () => {dispose1(), dispose2()}
+		const dispose1 = settings.on(async ({zoom}) => (await filmstrip).frequency = getFrequencyInSec(zoom))
+		const dispose2 = ui.on(async ({timelineScrollLeft}) => throttledUpdate(timelineScrollLeft))
+		return () => {
+			dispose1()
+			dispose2()
+		}
 	})
 
 	return html`
 		<div class="filmstrip-container">
-			${(thumbnails().map(({time, canvas}) => html`
+			${thumbnails().map(({time, canvas}) => html`
 				<div
 					class="thumbnail"
 					style="
 						left: ${time * 1000 * pixelsPerMillisecond}px;
-						width: ${thumbnailDivWidthPx}px;
+						width: ${THUMB_WIDTH_PX}px;
 					"
 				>
 					${canvas}
 				</div>
-			`))}
+			`)}
 		</div>
 	`
 })
