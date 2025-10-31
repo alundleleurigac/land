@@ -5,7 +5,6 @@ import styleCss from "./style.css.js"
 import {Ruler} from "../ruler/view.js"
 import {Playhead} from "../playhead/view.js"
 import {renderItem} from "../../parts/render-item.js"
-import {renderItemMenu} from "../items/parts/menu/view.js"
 import themeCss from "../../../../../../../../theme.css.js"
 import {EditorContext} from "../../../../../../../../context/context.js"
 
@@ -13,17 +12,30 @@ export const TimelineArea = view(use => (context: EditorContext) => {
 	use.styles(themeCss, styleCss)
 	const viewedItemId = context.strata.viewedItemId.state.id
 
+	const onScroll = (e: Event) => {
+		const element = e.target as HTMLElement
+		const scrollLeft = element.scrollLeft
+		context.strata.ui.mutate(state => state.timelineScrollLeft = scrollLeft)
+	}
+
+	use.once(async () => {
+		await use.rendered
+		const timeline = use.shadow.querySelector(".timeline-grid")
+		const observer = new ResizeObserver(entries => {
+			for (const entry of entries) {
+				context.strata.ui.mutate(state => state.timelineWidth = entry.contentRect.width)
+			}
+		})
+		observer.observe(timeline!)
+	})
+
 	return html`
-		<div class="timeline-grid">
-			<div class="corner-box"></div>
+		<div @scroll=${onScroll} class="timeline-grid">
 			<div class="ruler-container">
 				${Ruler(context)}
 			</div>
 			<div class="playhead-container">
 				${Playhead(context)}
-			</div>
-			<div class="headers-panel">
-				${renderItemMenu(context)}
 			</div>
 			<div class="content-panel">
 				${renderItem(context, viewedItemId, [])}
