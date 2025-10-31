@@ -30,6 +30,7 @@ export const TimelineItem = view(use => (
 			@click=${setSelectedItem}
 			style="width: ${visualWidth}px;"
 		>
+			<span class=name>${"file name.mp4"}</span>
 			${content}
 			<div class="resize-handle start"></div>
 			<div class="resize-handle end"></div>
