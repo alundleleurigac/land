@@ -21,17 +21,28 @@ export const TransformControls = view(use => (context: EditorContext, item: Item
 	const [position, scale, rotation] = spatial?.transform ?? DEFAULT_TRANSFORM
 
 	const updateTransform = (next: Transform) => {
-		const current = tool.require<Item.Spatial>(item.spatialId)
-		if (!current) {
-			const created = tool.spatial(next)
-			tool.set(item.id, {spatialId: created.id})
-		} else {
-			tool.set<Item.Spatial>(current.id, {transform: next})
+		if(spatial)
+			tool.set<Item.Spatial>(spatial.id, {transform: next})
+	}
+
+	const onEnableTransform = (e: Event) => {
+		const target = e.target as HTMLInputElement
+		if(target.checked) {
+			if(!spatial) {
+				const created = tool.spatial(DEFAULT_TRANSFORM)
+				tool.set(item.id, {spatialId: created.id})
+			} else tool.set(spatial.id, {enabled: true})
+		} else if(spatial) {
+			tool.set(spatial.id, {enabled: false})
 		}
 	}
 
 	return html`
-		<div class="transform-controls">
+		<div>
+			<input @change=${onEnableTransform} id="transform" type="checkbox" />
+			<label for="transform">Transform</label>
+		</div>
+		<div class="transform-controls" ?data-disabled=${!spatial?.enabled}>
 			<div class="control-row">
 				<label>Position</label>
 				<div class="inputs">

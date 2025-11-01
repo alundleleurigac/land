@@ -6,6 +6,11 @@ export default css`
 	display: flex;
 	flex-direction: column;
 	gap: 0.8em;
+
+	&[data-disabled] {
+		opacity: 0.5;
+		pointer-events: none;
+	}
 }
 
 .control-row {
