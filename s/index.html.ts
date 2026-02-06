@@ -35,10 +35,7 @@ export default template(async basic => {
 			<title>omni-clip</title>
 		`,
 		body: html`
-			<div class="loading-page-indicator">
-				<img class="logo-loader" src="/assets/icon3.png" />
-				<div class="loader"><div class="loaderBar"></div></div>
-			</div>
-		`
+      <landing-page></landing-page>
+    `
 	})
 })
